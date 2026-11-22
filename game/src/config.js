@@ -1,4 +1,5 @@
-// config.js — every tunable number and the four original suits of Ember Tide.
+// config.js — every tunable number, the four original suits, and the
+// keyword abilities of Ember Tide.
 // One job: hold the game's constants so no other file hard-codes a value.
 
 export const CANVAS_W = 1280;
@@ -7,8 +8,18 @@ export const CANVAS_H = 720;
 export const START_LIFE = 20;
 export const HAND_SIZE = 5;
 export const ENERGY_PER_TURN = 3;
+export const MAX_ENERGY = 5;
 export const ADVANTAGE_BONUS = 3;
 export const SURGE_BONUS = 2;
+
+// The Tide Gauge: win a clash with suit advantage and the gauge rises by 1.
+// At 3 the gauge empties and the next card you play gains +3 power
+// (a Tide Surge). Both sides track their own gauge.
+export const TIDE_MAX = 3;
+export const TIDE_SURGE_BONUS = 3;
+
+// Discard: once a round, throw away a selected card to gain +1 energy.
+export const DISCARD_ENERGY = 1;
 
 // The four suits. Each has a colour AND a shape, never text alone:
 // Ember = flame triangle, Tide = wave, Gale = wind swirl, Stone = mountain.
@@ -20,6 +31,23 @@ export const SUITS = {
   stone: { name: 'Stone', color: '#8a8f98', dark: '#4c5158', light: '#c9cdd4', beats: 'ember', glyph: 'peak' },
 };
 export const SUIT_KEYS = ['ember', 'gale', 'tide', 'stone'];
+
+// One keyword ability per suit, printed on every card of that suit.
+// Ignite: a winning Ember card deals +2 damage.
+// Gust: a played Gale card leaves the rival with -1 energy next round (min 1).
+// Flow: a played Tide card draws +1 card at the next round.
+// Bulwark: a losing Stone card takes 2 less damage (min 0).
+export const ABILITIES = {
+  ember: { keyword: 'IGNITE', text: 'Win: +2 damage' },
+  gale: { keyword: 'GUST', text: 'Rival -1 energy next round' },
+  tide: { keyword: 'FLOW', text: 'Draw +1 card next round' },
+  stone: { keyword: 'BULWARK', text: 'Lose: take 2 less damage' },
+};
+export const IGNITE_BONUS = 2;
+export const GUST_PENALTY = 1;
+export const FLOW_DRAW = 1;
+export const BULWARK_REDUCE = 2;
+export const MIN_ROUND_ENERGY = 1;
 
 // Card layout on the 1280x720 table.
 export const CARD_W = 118;
