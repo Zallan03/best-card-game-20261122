@@ -20,13 +20,32 @@ Stone, Stone beats Ember — and **+2 Surge** for repeating your last suit.
 The loser of the clash takes damage equal to the difference. First to bring
 the rival to 0 life wins the duel.
 
-The rival reads the table: it chases suit advantage, saves big cards when it
-is behind, and hoards power when it is ahead — so its choices can be read and
-countered.
+### What makes a hand a decision
+
+- **Tide Gauge.** Win a clash *with suit advantage* and your gauge fills by
+  one (three drops, shown beside your life bar). A full gauge spends itself
+  on your next card: **Tide Surge, +3 power**. The rival has one too, so a
+  full enemy gauge is a warning.
+- **One keyword ability per suit**, printed on every card:
+  - **Ignite** (Ember) — a winning Ember card deals +2 damage.
+  - **Gust** (Gale) — a played Gale card leaves the rival with −1 energy
+    next round.
+  - **Flow** (Tide) — a played Tide card draws +1 card next round.
+  - **Bulwark** (Stone) — a losing Stone card takes 2 less damage.
+- **Discard for energy.** Once a round, discard a selected card for +1
+  energy — trade a card for the energy to play a bigger one.
+- **A rival you can read.** It chases suit advantage, values its keyword
+  abilities, spends a full Tide Gauge on its biggest card, gambles when it is
+  behind and hoards power when it is ahead.
+
+Cards slide to the clash, the winning card flips in, damage pops, and a win
+lands with confetti. The win and loss screens keep the final table on show —
+the cards that decided the duel.
 
 ## How to play
 
-- Click a card (or press **1–5**) to play it.
+- Click a card to select it; click it again (or press **1–5**) to play it.
+- **D** discards the selected card for +1 energy (once a round).
 - **Enter** to start, **N** for the next round, **R** to restart, **M** to mute.
 - Sounds are synthesised with WebAudio — no audio files.
 

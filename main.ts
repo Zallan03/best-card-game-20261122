@@ -1,6 +1,8 @@
 // Ember Tide — hand-in program (Node 22, standard library only).
 // Copies game/ and screenshots/ from beside this file to /output and writes
-// /output/dossier.json with the vendored make.fun library.
+// /output/dossier.json with the vendored make.fun library, then rebuilds the
+// dossier from the written output and demands byte equality — the same
+// comparison the dossier_matches gate performs.
 // Outside the grader, MAKEFUN_OUTPUT_DIR stands in for /output:
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 
@@ -17,10 +19,11 @@ cpSync(join(here, 'game'), join(out, 'game'), { recursive: true });
 mkdirSync(join(out, 'screenshots'), { recursive: true });
 if (existsSync(join(here, 'screenshots'))) cpSync(join(here, 'screenshots'), join(out, 'screenshots'), { recursive: true });
 
-// The scorer's own caps (reference/gate.json): only text_max_bytes shapes the bytes; the others refuse an entry the
-// scorer would refuse (more than 4 screenshots or one over 256 KiB; more than 993 files in game/ or 48 MiB of game
-// files, in all, or a path under game/ over 1000 bytes: game/ counts beside /output's own 1000-entry cap, its
-// screenshots/ and dossier.json).
+// The scorer's own caps (reference/gate.json): only text_max_bytes shapes the
+// bytes; the others refuse an entry the scorer would refuse (more than 4
+// screenshots or one over 256 KiB; more than 993 files in game/ or 48 MiB of
+// game files, in all, or a path under game/ over 1000 bytes: game/ counts
+// beside /output's own 1000-entry cap, its screenshots/ and dossier.json).
 const dossierOpts = {
   text_max_bytes: 163840,
   screenshots: { max: 4, max_bytes: 262144 },
@@ -32,8 +35,8 @@ const dossier = buildDossier(out, dossierOpts);
 writeFileSync(join(out, 'dossier.json'), dossier);
 
 // Self-check: rebuild the dossier from the written output and demand byte
-// equality — the same comparison the dossier_matches gate performs.
-// (buildDossier returns a Uint8Array, so compare contents, not identity.)
+// equality. (buildDossier returns a Uint8Array, so compare contents, not
+// identity.)
 const rebuilt = buildDossier(out, dossierOpts);
 if (!Buffer.from(rebuilt).equals(Buffer.from(dossier))) {
   throw new Error('dossier mismatch: rebuild differs from written dossier.json');
