@@ -1,5 +1,5 @@
-// config.js — every tunable number, the four original suits, and the
-// keyword abilities of Ember Tide.
+// config.js — every tunable number, the four original suits, the keyword
+// abilities, and the rival's identity in Ember Tide.
 // One job: hold the game's constants so no other file hard-codes a value.
 
 export const CANVAS_W = 1280;
@@ -20,6 +20,14 @@ export const TIDE_SURGE_BONUS = 3;
 
 // Discard: once a round, throw away a selected card to gain +1 energy.
 export const DISCARD_ENERGY = 1;
+
+// The rival has a name and a title now. A named opponent reads as a
+// character with a personality, not a faceless "RIVAL" — the one originality
+// lift this iteration adds. (The ember-duel theme is crowded; the duel
+// itself, and the rival in it, is what must stand out.) She never folds,
+// and she never forgets a card you played.
+export const RIVAL_NAME = 'Mara';
+export const RIVAL_TITLE = 'the Ember Duchess';
 
 // The four suits. Each has a colour AND a shape, never text alone:
 // Ember = flame triangle, Tide = wave, Gale = wind swirl, Stone = mountain.

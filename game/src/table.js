@@ -1,10 +1,17 @@
 // table.js — the felt table, the HUD and the clash area. One job: draw the
 // table the duel is played on. It never changes game state; it only reads it.
+//
+// Fixed in this version: the Tide Gauge used to draw its drops on top of its
+// own label, so "RIVAL TIDE" read as "RIVAL T" and "YOUR TIDE" as "YOUR T"
+// on the cover. The gauge now measures its label first and lays the drops
+// out after it, with a clear gap, and the pill is right-aligned to the same
+// 1260 edge as the battle log and the top-bar text — the name and the drops
+// can never overlap again. The rival is Mara now, not a faceless "RIVAL".
 
 import {
   CANVAS_W, CANVAS_H, SUITS, CARD_W, CARD_H, CARD_GAP,
   FOE_HAND_Y, PLAYER_HAND_Y, CLASH_Y, ENERGY_PER_TURN,
-  TIDE_MAX,
+  TIDE_MAX, RIVAL_NAME,
 } from './config.js';
 import { drawCard } from './cards.js';
 import { roundRect } from './cards.js';
@@ -41,20 +48,31 @@ function drawLifeBar(ctx, x, y, w, life, max, color, label) {
 
 // The Tide Gauge: three drops that fill as the side wins clashes with suit
 // advantage. A full gauge spends itself on the next card (+3 power).
-function drawTideGauge(ctx, x, y, level, label) {
+// `rightX` is the pill's right edge — both gauges end on the same 1260 edge
+// as the battle log. The label is measured first and the drops are laid out
+// after it with a gap, so the drops can never paint over the name.
+function drawTideGauge(ctx, rightX, y, level, label) {
   ctx.save();
-  ctx.fillStyle = 'rgba(0,0,0,0.5)';
-  roundRect(ctx, x - 4, y - 4, 148, 30, 9);
-  ctx.fill();
-  ctx.fillStyle = '#e8e2d4';
   ctx.font = 'bold 13px system-ui, sans-serif';
   ctx.textAlign = 'left';
   ctx.textBaseline = 'middle';
-  ctx.fillText(label, x + 8, y + 11);
+  const labelW = ctx.measureText(label).width;
+  const gap = 14;
+  const dotR = 9;
+  const dotStep = 26;
+  const dotsW = (TIDE_MAX - 1) * dotStep + dotR * 2;
+  const pad = 10;
+  const w = pad + labelW + gap + dotsW + pad;
+  const left = rightX - w;
+  ctx.fillStyle = 'rgba(0,0,0,0.5)';
+  roundRect(ctx, left, y - 4, w, 30, 9);
+  ctx.fill();
+  ctx.fillStyle = '#e8e2d4';
+  ctx.fillText(label, left + pad, y + 11);
   for (let i = 0; i < TIDE_MAX; i++) {
-    const cx = x + 62 + i * 26;
+    const cx = left + pad + labelW + gap + dotR + i * dotStep;
     ctx.beginPath();
-    ctx.arc(cx, y + 11, 9, 0, Math.PI * 2);
+    ctx.arc(cx, y + 11, dotR, 0, Math.PI * 2);
     ctx.fillStyle = i < level ? '#2f7fe0' : 'rgba(255,255,255,0.18)';
     ctx.fill();
     ctx.lineWidth = 2;
@@ -100,13 +118,14 @@ export function drawHud(ctx, state) {
   ctx.textAlign = 'right';
   ctx.fillText(`ENERGY ${state.playerEnergy} / ${ENERGY_PER_TURN}  •  M mute`, 1260, 27);
 
-  // Life bars: rival top-left, player bottom-left.
-  drawLifeBar(ctx, 20, 62, 300, state.foeLife, 20, '#e05252', 'RIVAL');
+  // Life bars: Mara top-left, player bottom-left.
+  drawLifeBar(ctx, 20, 62, 300, state.foeLife, 20, '#e05252', RIVAL_NAME.toUpperCase());
   drawLifeBar(ctx, 20, 668, 300, state.playerLife, 20, '#3fae5a', 'YOU');
 
-  // Tide Gauges: rival's top-right, yours bottom-right.
-  drawTideGauge(ctx, 1112, 62, state.foeTide, 'RIVAL TIDE');
-  drawTideGauge(ctx, 1112, 668, state.playerTide, 'YOUR TIDE');
+  // Tide Gauges: Mara's top-right, yours bottom-right. Both pills end on
+  // the 1260 right edge, and each gauge carries its owner's name.
+  drawTideGauge(ctx, 1260, 62, state.foeTide, `${RIVAL_NAME.toUpperCase()} TIDE`);
+  drawTideGauge(ctx, 1260, 668, state.playerTide, 'YOUR TIDE');
 
   // Battle log, bottom-right, kept above your tide gauge so the two never
   // overlap: four lines ending at y=650, the gauge starting at y=668.
@@ -137,7 +156,7 @@ export function drawClashArea(ctx, state) {
   drawCard(ctx, clash.foeCard, cx + 70, CLASH_Y, { surge: clash.foeTideSurge });
   // One verdict line in the clear gap between the rival hand and the clash
   // cards: who won, the totals and the damage — never drawn over a card.
-  const verdict = clash.winner === 'player' ? 'YOU WIN THE CLASH' : clash.winner === 'foe' ? 'RIVAL WINS THE CLASH' : 'TIED CLASH';
+  const verdict = clash.winner === 'player' ? 'YOU WIN THE CLASH' : clash.winner === 'foe' ? `${RIVAL_NAME.toUpperCase()} WINS THE CLASH` : 'TIED CLASH';
   ctx.textAlign = 'center';
   ctx.fillStyle = clash.winner === 'player' ? '#ffd94d' : clash.winner === 'foe' ? '#ff8a7a' : '#d8d2c4';
   ctx.font = 'bold 24px system-ui, sans-serif';

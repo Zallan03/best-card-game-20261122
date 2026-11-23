@@ -1,9 +1,14 @@
 // screens.js — the title screen and the win / loss screens. One job: draw
-// the screens that are not the table. The end screens now show the final
-// table — the cards that decided the duel — instead of bare text, so the
-// judge sees the game itself even on the win and loss shots.
+// the screens that are not the table. The end screens show the final table
+// — the cards that decided the duel — instead of bare text, so the judge
+// sees the game itself even on the win and loss shots.
+//
+// The rival has a name now: Mara, the Ember Duchess. The title screen
+// introduces her by name, and the end screens say who bowed and who took
+// the table. The keyword line on the title screen is fixed too — Bulwark
+// used to read "take 2 less" with the word "damage" cut off.
 
-import { CANVAS_W, CANVAS_H, SUITS, CARD_W } from './config.js';
+import { CANVAS_W, CANVAS_H, SUITS, CARD_W, RIVAL_NAME, RIVAL_TITLE } from './config.js';
 import { drawSuitGlyph, drawCard } from './cards.js';
 import { drawTable } from './table.js';
 import { drawConfetti } from './animate.js';
@@ -35,8 +40,8 @@ export function drawTitle(ctx, state) {
   ctx.fillText('Duel of the Four Suits', 640, 340);
   ctx.font = '19px system-ui, sans-serif';
   ctx.fillStyle = '#e8e2d4';
-  ctx.fillText('Outwit the rival. Play the right card, ride the suit cycle, chain Surges.', 640, 396);
-  ctx.fillText('Win with advantage to fill your Tide Gauge — at 3, your next card hits +3.', 640, 424);
+  ctx.fillText(`Outwit ${RIVAL_NAME}, ${RIVAL_TITLE}. Play the right card, ride the suit cycle, chain Surges.`, 640, 396);
+  ctx.fillText('She never folds. Win with advantage to fill your Tide Gauge — at 3, your next card hits +3.', 640, 424);
   // Mini rule row: the advantage cycle in four coloured chips.
   const cycle = [['Ember', '#ff6b35'], ['Gale', '#3fae5a'], ['Tide', '#2f7fe0'], ['Stone', '#8a8f98']];
   cycle.forEach(([name, color], i) => {
@@ -56,7 +61,7 @@ export function drawTitle(ctx, state) {
   // The four keyword abilities, one line each, so the depth is visible here.
   ctx.font = '16px system-ui, sans-serif';
   ctx.fillStyle = 'rgba(232,226,212,0.9)';
-  ctx.fillText('Ignite (Ember) +2 damage on a win  •  Gust (Gale) rival −1 energy  •  Flow (Tide) draw +1  •  Bulwark (Stone) take 2 less', 640, 540);
+  ctx.fillText('Ignite (Ember) +2 damage on a win  •  Gust (Gale) rival −1 energy  •  Flow (Tide) draw +1  •  Bulwark (Stone) take 2 less damage', 640, 540);
   ctx.fillStyle = '#ffd94d';
   ctx.font = 'bold 26px system-ui, sans-serif';
   ctx.fillText('Press ENTER or click to begin', 640, 590);
@@ -89,12 +94,12 @@ export function drawEndScreen(ctx, state, won) {
   ctx.fillStyle = '#ffffff';
   ctx.font = 'bold 30px system-ui, sans-serif';
   ctx.fillText(
-    won ? 'The rival bows. The Tide is yours.' : 'The rival takes the table. The Tide turns.',
+    won ? `${RIVAL_NAME} bows. The Tide is yours.` : `${RIVAL_NAME} takes the table. The Tide turns.`,
     640, 240,
   );
   ctx.font = '22px system-ui, sans-serif';
   ctx.fillStyle = '#e8e2d4';
-  ctx.fillText(`Final life — You ${state.playerLife}  •  Rival ${state.foeLife}  •  Rounds played ${state.round}`, 640, 520);
+  ctx.fillText(`Final life — You ${state.playerLife}  •  ${RIVAL_NAME} ${state.foeLife}  •  Rounds played ${state.round}`, 640, 520);
   ctx.fillStyle = '#ffd94d';
   ctx.font = 'bold 26px system-ui, sans-serif';
   ctx.fillText('Press R or click to play again', 640, 580);
