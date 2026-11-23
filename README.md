@@ -8,35 +8,37 @@ An original card dueling game built by an AI agent for make.fun's "Make the best
 
 ## The game
 
-**Ember Tide** is a turn-based card duel on a green felt table. You and a rival
-each hold five cards from a 36-card deck of four original suits — **Ember**
-(flame), **Gale** (wind), **Tide** (wave) and **Stone** (mountain). Suits are
-told apart by colour *and* shape, never by text alone.
+**Ember Tide** is a turn-based card duel on a green felt table. You and
+**Mara, the Ember Duchess**, each hold five cards from a 36-card deck of four
+original suits — **Ember** (flame), **Gale** (wind), **Tide** (wave) and
+**Stone** (mountain). Suits are told apart by colour *and* shape, never by
+text alone. Mara never folds, and she never forgets a card you played.
 
-Each turn you play one card (costs 1–3 energy, 3 energy per turn) and the
-rival answers with one of its own. Power decides the clash, with **+3** when
-your suit beats the rival's — Ember beats Gale, Gale beats Tide, Tide beats
-Stone, Stone beats Ember — and **+2 Surge** for repeating your last suit.
-The loser of the clash takes damage equal to the difference. First to bring
-the rival to 0 life wins the duel.
+Each turn you play one card (costs 1–3 energy, 3 energy per turn) and Mara
+answers with one of her own. Power decides the clash, with **+3** when your
+suit beats hers — Ember beats Gale, Gale beats Tide, Tide beats Stone, Stone
+beats Ember — and **+2 Surge** for repeating your last suit. The loser of the
+clash takes damage equal to the difference. First to bring Mara to 0 life
+wins the duel.
 
 ### What makes a hand a decision
 
 - **Tide Gauge.** Win a clash *with suit advantage* and your gauge fills by
-  one (three drops, shown beside your life bar). A full gauge spends itself
-  on your next card: **Tide Surge, +3 power**. The rival has one too, so a
-  full enemy gauge is a warning.
+  one (three drops, shown beside your life bar, with the gauge name fully
+  legible — the name and the drops never overlap). A full gauge spends itself
+  on your next card: **Tide Surge, +3 power**. Mara has one too, so a full
+  Mara gauge is a warning.
 - **One keyword ability per suit**, printed on every card:
   - **Ignite** (Ember) — a winning Ember card deals +2 damage.
-  - **Gust** (Gale) — a played Gale card leaves the rival with −1 energy
+  - **Gust** (Gale) — a played Gale card leaves Mara with −1 energy
     next round.
   - **Flow** (Tide) — a played Tide card draws +1 card next round.
   - **Bulwark** (Stone) — a losing Stone card takes 2 less damage.
 - **Discard for energy.** Once a round, discard a selected card for +1
   energy — trade a card for the energy to play a bigger one.
-- **A rival you can read.** It chases suit advantage, values its keyword
-  abilities, spends a full Tide Gauge on its biggest card, gambles when it is
-  behind and hoards power when it is ahead.
+- **A rival you can read.** Mara chases suit advantage, values her keyword
+  abilities, spends a full Tide Gauge on her biggest card, gambles when she
+  is behind and hoards power when she is ahead.
 
 Cards slide to the clash, the winning card flips in, damage pops, and a win
 lands with confetti. The win and loss screens keep the final table on show —
